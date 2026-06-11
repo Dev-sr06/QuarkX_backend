@@ -86,7 +86,7 @@ const purchase_schema=mongoose.Schema({
 
 const usermodel=mongoose.model("user_data",user_schema);
 const adminmodel=mongoose.model("admin_data",admin_schema);
-const coursemodel=mongoose.model("course_dat",course_schema);
+const coursemodel=mongoose.model("course_data",course_schema);
 const purchasemodel=mongoose.model("purchase_data",purchase_schema);
 
 module.exports={
