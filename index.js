@@ -6,7 +6,7 @@ dotenv.config();
 
 app.use(express.json());
 
-const {auth}=require("./middleware/middleware");
+const {auth}=require("./middleware/user_auth_middleware");
 const {userRouter}=require("./routes/user");
 const {adminRouter}=require("./routes/admin");
 const {courseRouter}=require("./routes/course");

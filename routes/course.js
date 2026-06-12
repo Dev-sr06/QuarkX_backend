@@ -2,9 +2,9 @@ const {Router}=require("express");
 const courseRouter=Router();
 
 const {coursemodel}=require("../db");
-const {auth}=require("../middleware/middleware");
+const {auth}=require("../middleware/user_auth_middleware");
 
-courseRouter.post("/course",auth,(req,res)=>{
+courseRouter.post("/course",(req,res)=>{
      return res.send({
         msg:"course added",
      })

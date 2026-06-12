@@ -1,5 +1,5 @@
 const {adminmodel}=require("../db");
-const {auth}=require("../middleware/middleware");
+const {admin_auth}=require("../middleware/admin_auth_middleware");
 const z=require("zod");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
@@ -7,7 +7,7 @@ const jwt=require("jsonwebtoken");
 const {Router}=require("express");
 const adminRouter=Router();
 
-const JWT_SECRET=process.env.JWT_SECRET;
+const JWT_SECRET_ADMIN=process.env.JWT_SECRET_ADMIN;
 
 
 adminRouter.post("/signup",async (req,res)=>{
@@ -87,7 +87,7 @@ adminRouter.post("/signin",async (req,res)=>{
 
      const token=jwt.sign({
         _id:admin._id.toString(),
-     },JWT_SECRET);
+     },JWT_SECRET_ADMIN);
   
      return res.status(200).send({
         msg:"you have signed in!",
@@ -95,6 +95,7 @@ adminRouter.post("/signin",async (req,res)=>{
      })
 
 })
+
 
 module.exports={
     adminRouter:adminRouter,
