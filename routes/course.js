@@ -2,13 +2,13 @@ const {Router}=require("express");
 const courseRouter=Router();
 
 const {coursemodel}=require("../db");
-const {auth}=require("../middleware/user_auth_middleware");
+const {user_auth}=require("../middleware/user_auth_middleware");
+const {admin_auth}=require("../middleware/admin_auth_middleware");
 
-courseRouter.post("/course",(req,res)=>{
-     return res.send({
-        msg:"course added",
-     })
+courseRouter.post("/add",admin_auth,(req,res)=>{
+     
 });
+
 
 
 

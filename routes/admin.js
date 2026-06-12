@@ -1,4 +1,4 @@
-const {adminmodel}=require("../db");
+const {adminmodel, coursemodel}=require("../db");
 const {admin_auth}=require("../middleware/admin_auth_middleware");
 const z=require("zod");
 const bcrypt=require("bcrypt");
@@ -94,6 +94,32 @@ adminRouter.post("/signin",async (req,res)=>{
         token:token,
      })
 
+})
+
+adminRouter.post("/course",admin_auth,async (req,res)=>{
+    const admin_id=req.admin_id;
+
+    const {id,title,description,price,imageURL}=req.body;
+
+    await coursemodel.create({
+        title:title,
+        description:description,
+        price:price,
+        createrId:admin_id,
+        imageURL:imageURL
+    })
+
+    return res.json({
+        msg:"course added!"
+    })
+})
+
+adminRouter.put("/course",admin_auth,(req,res)=>{
+    const admin_id=req.admin_id;
+    const {title}=req.body;
+    const course=coursemodel.findOne({
+        title:title,
+    });
 })
 
 

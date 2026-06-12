@@ -14,7 +14,7 @@ function auth(req,res,next){
          })
      }
 
-     req.id=decoded_data._id;
+     req.user_id=decoded_data._id;
      next();
 
 }

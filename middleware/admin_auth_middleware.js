@@ -15,7 +15,7 @@ function auth(req,res){
         msg:"invalid token",
        })  
     }
-   req.adminId=decoded_data._id;
+   req.admin_Id=decoded_data._id;
    next();
 }
 
