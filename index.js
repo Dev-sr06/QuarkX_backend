@@ -10,11 +10,9 @@ const {auth}=require("./middleware/user_auth_middleware");
 const {userRouter}=require("./routes/user");
 const {adminRouter}=require("./routes/admin");
 const {courseRouter}=require("./routes/course");
-const {purchaseRouter}=require("./routes/purchase");
 
 app.use("/user",userRouter);
 app.use("/admin",adminRouter);
-app.use("/purchase",purchaseRouter);
 app.use("/course",courseRouter);
 
 app.listen(process.env.PORT,()=>{

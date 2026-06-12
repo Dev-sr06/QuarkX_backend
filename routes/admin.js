@@ -97,29 +97,85 @@ adminRouter.post("/signin",async (req,res)=>{
 })
 
 adminRouter.post("/course",admin_auth,async (req,res)=>{
-    const admin_id=req.admin_id;
+    const admin_id=req.admin_Id;
 
     const {id,title,description,price,imageURL}=req.body;
 
     await coursemodel.create({
         title:title,
-        description:description,
+        Description:description,
         price:price,
-        createrId:admin_id,
+        creatorId:admin_id,
         imageURL:imageURL
     })
 
     return res.json({
-        msg:"course added!"
+        msg:"course added!",
+        admin_id:admin_id,
     })
 })
 
-adminRouter.put("/course",admin_auth,(req,res)=>{
-    const admin_id=req.admin_id;
-    const {title}=req.body;
-    const course=coursemodel.findOne({
-        title:title,
-    });
+adminRouter.put("/course",admin_auth,async (req,res)=>{
+   
+     const {title,description,price,imageURL,courseId,creatorId}=req.body;
+     const course=await coursemodel.updateOne({
+        _id:courseId,
+        creatorId:creatorId,
+     },{
+         title:title,
+         Description:description,
+         price:price,
+         imageURL:imageURL,
+     })
+
+     if(course.matchedCount === 0){
+        return res.status(400).send({
+            msg:"you cannot update the course."
+        })
+     }
+
+     return res.status(200).send({
+        msg:"course updated",
+     })
+})
+
+adminRouter.delete("/course",admin_auth,async(req,res)=>{
+    const {courseId,creatorId}=req.body;
+
+    const course=await coursemodel.deleteOne({
+       _id:courseId, 
+       creatorId:creatorId,
+    })
+
+    if(!course){
+        return res.status(400).send({
+            msg:"you cannot delete this course",
+        })
+    }
+
+    return res.status(200).send({
+        msg:"course deleted",
+    })
+
+})
+
+adminRouter.get("/course",admin_auth,async (req,res)=>{
+    const creatorId=req.admin_Id;
+
+    const courses=await coursemodel.find({
+        creatorId:creatorId,
+    })
+
+    if(!courses || courses.length === 0){
+        return res.status(400).send({
+            msg:"you have not added any course."
+        })
+    }
+
+    return res.status(200).send({
+        msg:"this is the list of all your courses",
+        course:courses,
+    })
 })
 
 

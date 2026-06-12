@@ -5,7 +5,7 @@ const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 
 
-const {usermodel}=require("../db");
+const {usermodel, purchasemodel}=require("../db");
 const {user_auth}=require("../middleware/user_auth_middleware")
 
 const dotenv=require("dotenv");
@@ -97,6 +97,19 @@ userRouter.post("/signin",async (req,res)=>{
         token:token,
      })
 
+})
+
+userRouter.get("/purchases",user_auth,async(req,res)=>{
+    const user_id=req.user_id;
+
+    
+    const courses=await purchasemodel.find({
+        userId:user_id,
+    })
+
+    return res.status(200).send({
+        courses:courses,
+    })
 })
 
 

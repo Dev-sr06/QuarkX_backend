@@ -1,11 +1,10 @@
-const { jwt } = require("zod");
+const jwt = require("jsonwebtoken");
 const dotenv=require("dotenv");
-const { decode } = require("jsonwebtoken");
 dotenv.config();
 
 const JWT_SECRET_ADMIN=process.env.JWT_SECRET_ADMIN;
 
-function auth(req,res){
+function auth(req,res,next){
      
     const token=req.headers.token;
     const decoded_data=jwt.verify(token,JWT_SECRET_ADMIN);
