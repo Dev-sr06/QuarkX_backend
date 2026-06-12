@@ -5,7 +5,7 @@ const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 
 
-const {usermodel, purchasemodel}=require("../db");
+const {usermodel, purchasemodel, coursemodel}=require("../db");
 const {user_auth}=require("../middleware/user_auth_middleware")
 
 const dotenv=require("dotenv");
@@ -101,14 +101,22 @@ userRouter.post("/signin",async (req,res)=>{
 
 userRouter.get("/purchases",user_auth,async(req,res)=>{
     const user_id=req.user_id;
-
-    
-    const courses=await purchasemodel.find({
+ 
+    const purchases=await purchasemodel.find({
         userId:user_id,
     })
 
+    let course_list=[];
+    for(let i=0;i<purchases.length;i++){
+         let course_id=purchases.courseId;
+
+         const course_data=await coursemodel.findOne(course_id);
+         course_list.push(course_data);
+    }
+  
+
     return res.status(200).send({
-        courses:courses,
+        course_list,
     })
 })
 
